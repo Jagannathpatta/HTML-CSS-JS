@@ -20,7 +20,7 @@ function sleep(ms) {
 
 async function grid(){
   
-  const cr = Math.floor( Math.random() * rows) + 1;
+  const cr = Math.floor(Math.random()*rows)+1;
   let cell = (cr*100) + cols  ;
 
   while( cell >= (cr * 100) ){
@@ -32,7 +32,7 @@ async function grid(){
   }
 
   updatescore(score);
-  // return cell;
+  /* return cell; */
 }
 
 function playerMovement(userInput){
@@ -99,7 +99,7 @@ function game(userInput){
   // num2 = setInterval(function(){ updatescore(score); }, 1000);
 }
 
-function creategrid( r , c){
+function creategrid( r, c){
   var s = '';
   for (let i = 1 ;i<= r;i++){
     s += `<tr id ="${i}">`;
@@ -136,16 +136,16 @@ function main() {
   
   up_div.addEventListener('mouseover', function(){
   game('u');
-  console.log('up');
+  console.log("up");
   })
 
   down_div.addEventListener('mouseover', function(){
     game('d');
-    console.log('down');
+    console.log("down");
   })
 
   restart_div.addEventListener('click', function(){
-    console.log('restart');
+    console.log("restart");
     startGame();
    
   })
