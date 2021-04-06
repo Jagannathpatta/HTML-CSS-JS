@@ -11,19 +11,22 @@
   border-radius: 20px;
 }
 
+.cbg{
+  background: #d00520;
+}
 
 .choices{
   text-align:center;
-  padding-top: 20px;
-  font-size: 22px;
+  /*padding-top: 20px;*/
+  /*font-size: 22px;*/
   font-weight: bolder;
 }
 .choice{
   display:block;
   border : 2px solid black;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-top: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  /*margin-top: 20px;*/
   border-radius: 10px; 
 }
 .choice:hover{
@@ -38,5 +41,6 @@
 }
 table {
   height: 400px;
+  width: 100%;
   background:#fff;
 }

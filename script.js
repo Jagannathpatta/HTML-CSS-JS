@@ -1,4 +1,4 @@
-const up_div =  document.getElementById("u");
+const up_div =  document.getElementById("up");
 const down_div =  document.getElementById("d");
 const restart_div =  document.getElementById("rs");
 const score_span =  document.getElementById("s");
@@ -13,6 +13,7 @@ var newPid = currentPID;
 var score = 0;
 var highscore = 0;
 var num2;
+var cell_list = [];
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -22,12 +23,13 @@ async function grid(){
   
   const cr = Math.floor(Math.random()*rows)+1;
   let cell = (cr*100) + cols  ;
+  console.log('--------cell:',cell);
 
   while( cell >= (cr * 100) ){
-    await sleep(150);
+    await sleep(200);
     const comp_cell = document.getElementById(cell);
-    comp_cell.classList.add('comp');
-    setTimeout( function() { comp_cell.classList.remove('comp')} , 150);
+    comp_cell.classList.add('comp');    
+    setTimeout( function() { comp_cell.classList.remove('comp') } , 200);    
     cell--;
   }
 
@@ -68,10 +70,10 @@ async function checkcolide(newPid){
       clearInterval(num);
       clearInterval(num2);
     if( highscoreUpdate(score) == 1 ){
-        field.innerHTML = `<tr><td><h1>Well Played !!</h1></td><br><td><h1>Your High Score ${ Math.round(score)}</h1></td></tr>`;
+        field.innerHTML = `<tr class="col-sm-12"><td><h1>Well Played !!</h1></td> </tr><br><tr><td><h1>Your High Score ${ Math.round(score)}</h1></td></tr>`;
       }
       else{
-        field.innerHTML = `<tr><td><h1>Game over</h1></td><br><td><h1>Your Score ${ Math.round(score)}</h1></td></tr>`;
+        field.innerHTML = `<tr class="col-sm-12"><td><h1>Game over</h1></td></tr><br><tr><td><h1>Your Score ${ Math.round(score)}</h1></td></tr>`;
       }
       score = 0;
       document.getElementById(temp).classList.remove('player');
@@ -91,24 +93,22 @@ function highscoreUpdate(Score){
   }
 }
 
-function game(userInput){
-  console.log(""+userInput + grid());
-  //switch(userInput):
-  playerMovement(userInput);
-  // updatescore(score);
-  // num2 = setInterval(function(){ updatescore(score); }, 1000);
-}
+// function game(userInput){
+  
+//   playerMovement(userInput);
+ 
+// }
 
 function creategrid( r, c){
   var s = '';
   for (let i = 1 ;i<= r;i++){
     s += `<tr id ="${i}">`;
     for (let j=0; j <= c; j++){
-      s+=` <td id="${(i*100) +j}"><span> - - </span> </td>`;
+      s+=` <td id="${(i*100) +j}" class=""><span> - - </span> </td>`;
     }
     s+=`</tr>`;
   }
-  console.log(s);
+  // console.log(s);
   return s;
 }
 
@@ -122,11 +122,11 @@ function updatescore(Score){
 function startGame(){
   field.innerHTML = creategrid( rows, cols);
   const currentEl = document.getElementById('301');
-  currentEl.classList.add('player');
+  // currentEl.classList.add('player');
   // var currentPID = 301;
   
   num = setInterval(function(){ checkcolide(newPid); }, 20);
-  // num2 = setInterval(function(){ grid(); }, 30000);
+  num2 = setInterval(function(){ grid(); }, 1200);
   // var newPid = currentPID;  
 }
 
@@ -134,21 +134,24 @@ function main() {
    
   startGame();
   
-  up_div.addEventListener('mouseover', function(){
-  game('u');
-  console.log("up");
-  })
+  up_div.addEventListener('click', function(){
+    playerMovement('u');
+    console.log("up");
+  });
 
-  down_div.addEventListener('mouseover', function(){
-    game('d');
-    console.log("down");
-  })
+  down_div.addEventListener('click', function(){
+    playerMovement('d');
+    console.log("down" , newPid);
+  });
 
   restart_div.addEventListener('click', function(){
     console.log("restart");
+    clearInterval(num);
+    clearInterval(num2);
+    score = 0;
     startGame();
    
-  })
+  });
   
  
 }
