@@ -19,17 +19,17 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function grid(){
+async function stoppers(){
   
   const cr = Math.floor(Math.random()*rows)+1;
   let cell = (cr*100) + cols  ;
   console.log('--------cell:',cell);
 
   while( cell >= (cr * 100) ){
-    await sleep(200);
+    await sleep(100);
     const comp_cell = document.getElementById(cell);
     comp_cell.classList.add('comp');    
-    setTimeout( function() { comp_cell.classList.remove('comp') } , 200);    
+    setTimeout( function() { comp_cell.classList.remove('comp') } , 100);    
     cell--;
   }
 
@@ -126,9 +126,57 @@ function startGame(){
   // var currentPID = 301;
   
   num = setInterval(function(){ checkcolide(newPid); }, 20);
-  num2 = setInterval(function(){ grid(); }, 1200);
+  num2 = setInterval(function(){ stoppers(); }, 800);
   // var newPid = currentPID;  
 }
+
+function keyPush(evt){
+  switch(evt.keyCode){
+    case 38: //up 
+        playerMovement('u');
+        console.log("up");
+        break;
+    case 87: // w
+        playerMovement('u');
+        console.log("up");
+        break;
+    case 40: //down
+        playerMovement('d');
+        console.log("down" , newPid);
+        break;
+    case 83: //s
+      playerMovement('d');
+      console.log("down" , newPid);
+      break;
+    case 13: //Enter
+        timmer();
+      break;
+  }
+}
+
+function timmer(){
+  var timeleft = 10;
+  var downloadTimer = setInterval(function(){
+    if(timeleft <= 0){
+      clearInterval(downloadTimer);
+      restart();
+
+    } else {
+      
+      field.innerHTML = `<tr><td><h1 class="choice">Will Start in : ${ timeleft }</h1></td></tr>`;
+    }
+    timeleft -= 1;
+  }, 300);
+}
+
+
+function restart(){
+    console.log("restart");
+    clearInterval(num);
+    clearInterval(num2);
+    score = 0;
+    startGame();   
+  }
 
 function main() {
    
@@ -144,14 +192,10 @@ function main() {
     console.log("down" , newPid);
   });
 
-  restart_div.addEventListener('click', function(){
-    console.log("restart");
-    clearInterval(num);
-    clearInterval(num2);
-    score = 0;
-    startGame();
-   
-  });
+  document.addEventListener('keydown', keyPush);  
+
+
+  restart_div.addEventListener('click', timmer);
   
  
 }
